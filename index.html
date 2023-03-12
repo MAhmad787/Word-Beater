@@ -13,18 +13,19 @@
 <body class="bg-dark text-white ">
     <header class="bg-secondary text-center p-3 mb-5 d-flex align-items-center justify-content-between">
         <h1>WordBeater</h1>
-        <h3>High Score <span id='highScore'></span></h3>
+        <h3 id='nickName'>NickName</h3>
     </header>
     <div class="container text-center">
         <div class="d-flex align-item-center justify-content-between">
 
-            <select class="custom-select-lg mb-5 bg-secondary btn-outline-dark rounded text-white">
+            <select class="custom-select-lg mb-5 bg-secondary btn-outline-dark rounded text-white" id='selectLevel'>
                 <option value="easy" selected>Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
+                <!-- <option value="medium">Medium</option>
+                <option value="hard">Hard</option> -->
             </select>
-            <button type="button" class="btn btn-secondary mb-5 btn-lg pl-4 pr-4">Start</button>
-            <h3 id='nickName'>NickName</h3>
+            <button type="button" class="btn btn-secondary mb-5 btn-lg pl-4 pr-4" id='start'>Start</button>
+            <h3>High Score <span id='highScore'></span></h3>
+
 
         </div>
         <!-- Word & Input -->
@@ -34,8 +35,7 @@
                     <span class="text-success" id="seconds">5</span> Seconds:
                 </p>
                 <h2 class="display-2 mb-5" id="currentWord">hello</h2>
-                <input type="text" class="form-control form-control-lg" placeholder="Start typing..." id="wordInput"
-                    autofocus>
+                <input type="text" class="form-control form-control-lg" placeholder="Start typing..." id="wordInput">
                 <h4 class="mt-3" id="message"></h4>
 
                 <!-- Time & Score Columns -->
