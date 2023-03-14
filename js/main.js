@@ -56,21 +56,31 @@ const words = [
   'definition',
 ];
 
+// Define the returning values of the Interval Function
+
+let counterId = null;
+let statusId = null;
+
 // Start Game by clicking on start button
 function startGame() {
+  clearInterval(counterId);
   // Set the time to its initial value
   time = currentLevel + 1;
+  // If something is written on input before starting the game
+  wordInput.value = '';
   // Setting UI tasks
   wordInput.focus();
   scoreDisplay.innerHTML = 0;
   // load Words from the array
   showWord(words);
+  // change the text of message
+  message.innerHTML = '';
   // Match the words
   wordInput.addEventListener('input', startMatch);
   // Countdown Function
-  setInterval(counter, 1000);
+  counterId = setInterval(counter, 1000);
   // Check the status of the game
-  setInterval(checkStatus, 50);
+  statusId = setInterval(checkStatus, 50);
 }
 
 function showWord(words) {
@@ -101,7 +111,7 @@ function matchWord() {
     return false;
   }
 }
-function counter(t) {
+function counter() {
   if (time > 0) {
     // Decrease the time
     time--;
@@ -112,17 +122,18 @@ function counter(t) {
   }
   // Display time
   timeDisplay.innerHTML = time;
-  if (time === 0) {
-    timeDisplay.innerHTML = 0;
-  }
 }
 
 // Check if score is === -1
+if (score === -1) {
+  scoreDisplay.innerHTML = '0';
+}
 
 // check the status of the game
 function checkStatus() {
   if (!isPlaying && time === 0) {
     message.innerHTML = 'Game Over!!!';
     score = -1;
+    start.innerHTML = 'Restart';
   }
 }
