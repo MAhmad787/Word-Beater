@@ -6,22 +6,24 @@ let currentTime = {
 };
 
 // Start the game
-window.addEventListener('load', startGame);
 
 // Globals
-let currentLevel = currentTime.medium;
+let currentLevel = currentTime.easy;
 let score = 0;
 let isPlaying;
 let time = currentLevel;
 
 // Grabing Elements
 let level = document.querySelector('#selectLevel');
+let start = document.querySelector('#start');
 let wordInput = document.querySelector('#wordInput');
 let currentWord = document.querySelector('#currentWord');
 let message = document.querySelector('#message');
 let timeDisplay = document.querySelector('#time');
 let scoreDisplay = document.querySelector('#score');
 let seconds = document.querySelector('#seconds');
+
+start.addEventListener('click', startGame);
 // Setting the UI time to the Current level
 seconds.innerHTML = currentLevel;
 
@@ -56,8 +58,9 @@ const words = [
 
 // Start Game by clicking on start button
 function startGame() {
+  // Set the time to its initial value
+  time = currentLevel + 1;
   // Setting UI tasks
-  time = currentLevel;
   wordInput.focus();
   scoreDisplay.innerHTML = 0;
   // load Words from the array
@@ -65,7 +68,8 @@ function startGame() {
   // Match the words
   wordInput.addEventListener('input', startMatch);
   // Countdown Function
-  let t = setInterval(counter, 1000);
+  setInterval(counter, 1000);
+  // Check the status of the game
   setInterval(checkStatus, 50);
 }
 
@@ -76,13 +80,16 @@ function showWord(words) {
 function startMatch() {
   if (matchWord()) {
     isPlaying = true;
-    score++;
+    time = currentLevel + 1;
     showWord(words);
     wordInput.value = '';
-
-    checkStatus();
+    score++;
   }
-  scoreDisplay.innerHTML = score;
+  if (score === -1) {
+    scoreDisplay.innerHTML = 0;
+  } else {
+    scoreDisplay.innerHTML = score;
+  }
 }
 
 function matchWord() {
@@ -98,18 +105,24 @@ function counter(t) {
   if (time > 0) {
     // Decrease the time
     time--;
+    console.log(time);
   } else if (time === 0) {
     // Game Over
     isPlaying = false;
   }
   // Display time
   timeDisplay.innerHTML = time;
+  if (time === 0) {
+    timeDisplay.innerHTML = 0;
+  }
 }
+
+// Check if score is === -1
 
 // check the status of the game
 function checkStatus() {
   if (!isPlaying && time === 0) {
     message.innerHTML = 'Game Over!!!';
-    score = 0;
+    score = -1;
   }
 }
