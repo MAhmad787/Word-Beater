@@ -5,21 +5,27 @@ let currentTime = {
   hard: 3,
 };
 
-let currentLevel = currentTime.easy;
+// Start the game
+window.addEventListener('load', startGame);
 
 // Globals
-let time = currentLevel;
-let level = document.querySelector('#selectLevel');
+let currentLevel = currentTime.medium;
 let score = 0;
 let isPlaying;
-let start = document.querySelector('#start');
+let time = currentLevel;
+
+// Grabing Elements
+let level = document.querySelector('#selectLevel');
 let wordInput = document.querySelector('#wordInput');
 let currentWord = document.querySelector('#currentWord');
-let seconds = document.querySelector('#seconds');
 let message = document.querySelector('#message');
 let timeDisplay = document.querySelector('#time');
 let scoreDisplay = document.querySelector('#score');
+let seconds = document.querySelector('#seconds');
+// Setting the UI time to the Current level
 seconds.innerHTML = currentLevel;
+
+// Array of Words
 const words = [
   'hat',
   'river',
@@ -49,46 +55,61 @@ const words = [
 ];
 
 // Start Game by clicking on start button
-start.addEventListener('click', startGame);
 function startGame() {
-  start.innerHTML = 'Started';
+  // Setting UI tasks
+  time = currentLevel;
   wordInput.focus();
   scoreDisplay.innerHTML = 0;
-  message.innerHTML = '';
-  function showWord(words) {
-    const randomIndex = Math.floor(Math.random() * words.length);
-    currentWord.innerHTML = words[randomIndex];
-  }
+  // load Words from the array
   showWord(words);
-  wordInput.addEventListener('input', matchWord);
-
-  let t = setInterval(counter, 1000);
-  // Setting the time to previous time
-  time = currentLevel;
-
+  // Match the words
+  wordInput.addEventListener('input', startMatch);
   // Countdown Function
+  let t = setInterval(counter, 1000);
+  setInterval(checkStatus, 50);
+}
 
-  function matchWord() {
-    message.innerHTML = '';
-    if (wordInput.value === currentWord.innerHTML) {
-      wordInput.value = '';
-      message.innerHTML = 'Correct!!!';
-      showWord(words);
-      time = currentLevel;
-      counter();
-      score++;
-      scoreDisplay.innerHTML = score;
-    }
+function showWord(words) {
+  const randomIndex = Math.floor(Math.random() * words.length);
+  currentWord.innerHTML = words[randomIndex];
+}
+function startMatch() {
+  if (matchWord()) {
+    isPlaying = true;
+    score++;
+    showWord(words);
+    wordInput.value = '';
+
+    checkStatus();
   }
-  function counter(t) {
-    if (time > 0) {
-      time--;
-      timeDisplay.innerHTML = time + 1;
-    } else if (time === 0) {
-      timeDisplay.innerHTML = 0;
-      message.innerHTML = 'Game Over!!!';
-      clearInterval(t);
-      start.innerHTML = 'Restart';
-    }
+  scoreDisplay.innerHTML = score;
+}
+
+function matchWord() {
+  if (wordInput.value === currentWord.innerHTML) {
+    message.innerHTML = 'Correct!!!';
+    return true;
+  } else {
+    message.innerHTML = '';
+    return false;
+  }
+}
+function counter(t) {
+  if (time > 0) {
+    // Decrease the time
+    time--;
+  } else if (time === 0) {
+    // Game Over
+    isPlaying = false;
+  }
+  // Display time
+  timeDisplay.innerHTML = time;
+}
+
+// check the status of the game
+function checkStatus() {
+  if (!isPlaying && time === 0) {
+    message.innerHTML = 'Game Over!!!';
+    score = 0;
   }
 }
