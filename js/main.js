@@ -11,7 +11,6 @@ let currentTime = {
 let currentLevel = currentTime.easy;
 let score = 0;
 let isPlaying;
-let time = currentLevel;
 
 // Grabing Elements
 let level = document.querySelector('#selectLevel');
@@ -22,10 +21,9 @@ let message = document.querySelector('#message');
 let timeDisplay = document.querySelector('#time');
 let scoreDisplay = document.querySelector('#score');
 let seconds = document.querySelector('#seconds');
-
+seconds.innerHTML = currentTime.easy;
 start.addEventListener('click', startGame);
 // Setting the UI time to the Current level
-seconds.innerHTML = currentLevel;
 
 // Array of Words
 const words = [
@@ -56,16 +54,28 @@ const words = [
   'definition',
 ];
 
+// Get the value of the level
+// console.log(level);
+level.addEventListener('change', () => {
+  levelValue = currentTime[level.value];
+  currentLevel = levelValue;
+  seconds.innerHTML = currentLevel;
+});
+console.log(currentLevel);
+
 // Define the returning values of the Interval Function
 
 let counterId = null;
 let statusId = null;
-
+let time = currentLevel;
 // Start Game by clicking on start button
 function startGame() {
+  // Disabling the Select Level
+  level.disabled = true;
+  // Clear the interval
   clearInterval(counterId);
   // Set the time to its initial value
-  time = currentLevel + 1;
+  time = currentLevel;
   // If something is written on input before starting the game
   wordInput.value = '';
   // Setting UI tasks
@@ -88,9 +98,10 @@ function showWord(words) {
   currentWord.innerHTML = words[randomIndex];
 }
 function startMatch() {
+  level.disabled = true;
   if (matchWord()) {
-    isPlaying = true;
     time = currentLevel + 1;
+    isPlaying = true;
     showWord(words);
     wordInput.value = '';
     score++;
@@ -135,5 +146,6 @@ function checkStatus() {
     message.innerHTML = 'Game Over!!!';
     score = -1;
     start.innerHTML = 'Restart';
+    level.disabled = false;
   }
 }
