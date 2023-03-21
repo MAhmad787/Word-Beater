@@ -21,7 +21,19 @@ let message = document.querySelector('#message');
 let timeDisplay = document.querySelector('#time');
 let scoreDisplay = document.querySelector('#score');
 let seconds = document.querySelector('#seconds');
+let userName = document.querySelector('#nickName');
 seconds.innerHTML = currentTime.easy;
+
+// Display in the UI
+userName.innerHTML = localStorage.getItem('Name');
+// Get the name of the user
+userName.addEventListener('click', () => {
+  let nickName = window.prompt('Your NickName');
+  localStorage.setItem('Name', nickName);
+  let useName = localStorage.getItem('Name');
+  userName.innerHTML = useName;
+});
+
 start.addEventListener('click', startGame);
 // Setting the UI time to the Current level
 
