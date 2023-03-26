@@ -10,10 +10,17 @@
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 
-<body class="bg-dark text-white ">
-    <header class="bg-secondary text-center p-3 mb-5 d-flex align-items-center justify-content-between">
-        <h1>WordBeater</h1>
-        <h2 id="nickName">Unknown</h2>
+<body class="bg-dark text-white">
+    <header class="bg-secondary text-center p-3 mb-5">
+        <h1>Word Beater</h1>
+    </header>
+    <header class="bg-dark text-left px-3 mb-5">
+        <h3>
+            Your Nickname :
+            <span id="nickName" class='text-warning'>Unknown</span>
+        </h3>
+        <button type="button" class="btn btn-secondary
+        text-warning btn-lg p-2" id='addName'>Change Name</button>
     </header>
     <div class="container text-center">
         <div class="d-flex align-item-center justify-content-between">
@@ -23,7 +30,7 @@
                 <option value="hard">Hard</option>
             </select>
             <button type="button" class="btn btn-secondary mb-5 btn-lg pl-4 pr-4" id='start'>Start</button>
-            <h3> <span id='highScore'> </span></h3>
+            <h3>High: <span id='highScore' class='text-info'> 0</span></h3>
 
 
         </div>
@@ -51,18 +58,6 @@
                     </div>
                 </div>
 
-                <!-- Instructions -->
-                <div class="row mt-5">
-                    <div class="col-md-12">
-                        <div class="card card-body bg-secondary text-white">
-                            <h5>Instructions</h5>
-                            <p>Type each word in the given amount of seconds to score. To play again, just type the
-                                current word. Your
-                                score
-                                will reset</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

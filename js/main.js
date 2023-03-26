@@ -22,18 +22,49 @@ let timeDisplay = document.querySelector('#time');
 let scoreDisplay = document.querySelector('#score');
 let seconds = document.querySelector('#seconds');
 let userName = document.querySelector('#nickName');
+let addName = document.querySelector('#addName');
 seconds.innerHTML = currentTime.easy;
 
-// Display in the UI
-userName.innerHTML = localStorage.getItem('Name');
-// Get the name of the user
-userName.addEventListener('click', () => {
-  let nickName = window.prompt('Your NickName');
-  localStorage.setItem('Name', nickName);
-  let useName = localStorage.getItem('Name');
-  userName.innerHTML = useName;
-});
+// Display High score in UI
 
+if (typeof sessionStorage['highScore'] != 'undefined') {
+  highScore.innerHTML = sessionStorage['highScore'];
+}
+
+// If userName does not exist
+let uiName = userName.innerHTML;
+if (
+  typeof sessionStorage['Name'] === 'undefined' ||
+  sessionStorage['Name'] === ''
+) {
+  userName.innerHTML = uiName;
+} else {
+  userName.innerHTML = sessionStorage['Name'];
+  // Get the name of the user
+}
+
+addName.addEventListener('click', () => {
+  let nickName = window.prompt('Your NickName');
+
+  // If nickName is empty
+
+  if (nickName === ' ' || nickName === '') {
+    console.log('error 1 passed');
+    if (
+      typeof sessionStorage['Name'] === 'undefined' ||
+      sessionStorage['Name'] === ''
+    ) {
+      userName.innerHTML = uiName;
+      console.log('error 2 passed');
+    } else {
+      userName.innerHTML = sessionStorage['Name'];
+    }
+  } else {
+    sessionStorage.setItem('Name', nickName);
+    userName.innerHTML = sessionStorage['Name'];
+  }
+});
+// Starts the game
 start.addEventListener('click', startGame);
 // Setting the UI time to the Current level
 
@@ -118,6 +149,22 @@ function startMatch() {
     wordInput.value = '';
     score++;
   }
+
+  // Set High Score
+  if (
+    typeof sessionStorage['highScore'] === 'undefined' ||
+    score > sessionStorage['highScore']
+  ) {
+    sessionStorage['highScore'] = score;
+  } else {
+    sessionStorage['highScore'] = sessionStorage['highScore'];
+  }
+
+  // Prevent display High score : -1
+  if (sessionStorage['highScore'] >= 0) {
+    highScore.innerHTML = sessionStorage['highScore'];
+  }
+
   if (score === -1) {
     scoreDisplay.innerHTML = 0;
   } else {
@@ -138,18 +185,13 @@ function counter() {
   if (time > 0) {
     // Decrease the time
     time--;
-    console.log(time);
   } else if (time === 0) {
     // Game Over
     isPlaying = false;
+    highScore.innerHTML = sessionStorage['highScore'];
   }
   // Display time
   timeDisplay.innerHTML = time;
-}
-
-// Check if score is === -1
-if (score === -1) {
-  scoreDisplay.innerHTML = '0';
 }
 
 // check the status of the game
